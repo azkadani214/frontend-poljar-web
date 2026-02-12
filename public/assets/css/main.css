@@ -1,0 +1,161 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Vollkorn:ital,wght@0,400..900;1,400..900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply font-sans;
+  }
+
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply antialiased bg-white text-primary-navy;
+  }
+}
+
+@layer components {
+  /* Button Components */
+  .btn-primary {
+    @apply px-6 py-3 bg-primary-orange text-white font-semibold hover:bg-[#E67A32] transition-all duration-300;
+  }
+
+  .btn-secondary {
+    @apply px-6 py-3 bg-primary-navy text-white font-semibold hover:bg-[#152A45] transition-all duration-300;
+  }
+
+  .btn-outline {
+    @apply px-6 py-3 border-2 border-primary-navy text-primary-navy font-semibold hover:bg-primary-navy hover:text-white transition-all duration-300;
+  }
+
+  /* Card Components */
+  .card {
+    @apply bg-white border-2 border-gray-200 overflow-hidden transition-all duration-300;
+  }
+
+  .card-hover {
+    @apply hover:border-primary-orange hover:shadow-lg;
+  }
+
+  /* Input Components */
+  .input-field {
+    @apply w-full px-4 py-3 border-2 border-gray-200 focus:border-primary-orange focus:outline-none transition-colors;
+  }
+
+  /* Section Components */
+  .section {
+    @apply py-16 lg:py-20;
+  }
+
+  .container-custom {
+    @apply max-w-350px mx-auto px-6 lg:px-12;
+  }
+}
+
+@layer utilities {
+  /* Navigation Utilities */
+  .nav-scrolled {
+    @apply bg-white/95 backdrop-blur-md shadow-md;
+  }
+
+  /* Accordion Utilities */
+  .accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+
+  .accordion-content.active {
+    max-height: 500px;
+  }
+
+  .accordion-icon {
+    transition: transform 0.3s ease;
+  }
+
+  .accordion-icon.active {
+    transform: rotate(45deg);
+  }
+
+  /* Text Utilities */
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary-orange to-primary-blue bg-clip-text text-transparent;
+  }
+
+  /* Animation Utilities */
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+
+  .animate-slide-up {
+    animation: slideUp 0.5s ease-out;
+  }
+
+  .animate-slide-down {
+    animation: slideDown 0.3s ease-out;
+  }
+}
+
+/* Custom Animations */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideDown {
+  0% {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-primary-navy rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-primary-orange;
+}
+
+/* Selection Styling */
+::selection {
+  @apply bg-primary-orange text-white;
+}
+
+/* Focus Styling */
+:focus-visible {
+  @apply outline-2 outline-offset-2 outline-primary-orange;
+}
