@@ -60,7 +60,9 @@
                 v-model="form.title"
                 placeholder="Masukkan judul berita yang menarik..."
                 class="text-lg font-bold h-12"
+                :class="{ 'border-red-500': errors.title }"
               />
+              <p v-if="errors.title" class="text-xs text-red-500 mt-1">{{ errors.title[0] }}</p>
             </div>
 
             <div class="space-y-2">
@@ -69,12 +71,17 @@
                 id="sub_title"
                 v-model="form.sub_title"
                 placeholder="Masukkan sub judul berita (opsional)..."
+                :class="{ 'border-red-500': errors.sub_title }"
               />
+              <p v-if="errors.sub_title" class="text-xs text-red-500 mt-1">
+                {{ errors.sub_title[0] }}
+              </p>
             </div>
 
             <div class="space-y-2">
               <Label>Isi Berita</Label>
-              <RichTextEditor v-model="form.body" />
+              <RichTextEditor v-model="form.body" :class="{ 'ring-1 ring-red-500': errors.body }" />
+              <p v-if="errors.body" class="text-xs text-red-500 mt-1">{{ errors.body[0] }}</p>
             </div>
 
             <div class="space-y-2">
@@ -85,7 +92,9 @@
                 placeholder="Tulis ringkasan singkat untuk tampilan kartu berita..."
                 rows="3"
                 class="resize-none"
+                :class="{ 'border-red-500': errors.excerpt }"
               />
+              <p v-if="errors.excerpt" class="text-xs text-red-500 mt-1">{{ errors.excerpt[0] }}</p>
               <p class="text-[10px] text-gray-400">
                 Maksimal 200 karakter. Jika kosong, akan diambil dari isi berita.
               </p>
@@ -156,7 +165,14 @@
 
             <div v-if="form.status === 'scheduled'" class="space-y-2 animate-slide-down">
               <Label>Waktu Publikasi</Label>
-              <Input type="datetime-local" v-model="form.publish_at" />
+              <Input
+                type="datetime-local"
+                v-model="form.publish_at"
+                :class="{ 'border-red-500': errors.scheduled_for }"
+              />
+              <p v-if="errors.scheduled_for" class="text-xs text-red-500 mt-1">
+                {{ errors.scheduled_for[0] }}
+              </p>
             </div>
 
             <div
@@ -250,7 +266,13 @@
             >
           </CardHeader>
           <CardContent>
-            <ImageUploader v-model="form.image" />
+            <ImageUploader
+              v-model="form.image"
+              :class="{ 'ring-2 ring-red-500': errors.cover_photo }"
+            />
+            <p v-if="errors.cover_photo" class="text-xs text-red-500 mt-1">
+              {{ errors.cover_photo[0] }}
+            </p>
           </CardContent>
         </Card>
       </div>
@@ -351,6 +373,7 @@ const autoSaveInterval = ref(null)
 const showRestoreModal = ref(false)
 const pendingDraft = ref(null)
 const hasCheckedDraft = ref(false)
+const errors = ref({})
 
 const formatLastSaved = computed(() => {
   if (!pendingDraft.value?.timestamp) return ''
@@ -417,6 +440,7 @@ async function handleSubmit() {
   if (!form.body) return toast.error('Isi berita tidak boleh kosong')
 
   isLoading.value = true
+  errors.value = {}
 
   try {
     const formData = new FormData()
@@ -428,7 +452,13 @@ async function handleSubmit() {
     formData.append('status', form.status)
 
     if (form.excerpt) formData.append('excerpt', form.excerpt)
-    if (form.publish_at) formData.append('published_at', form.publish_at)
+    
+    // Map time based on status
+    if (form.status === 'scheduled' && form.publish_at) {
+      formData.append('scheduled_for', form.publish_at)
+    } else if (form.publish_at) {
+      formData.append('published_at', form.publish_at)
+    }
 
     // Checkbox/Switch values as 1/0
     formData.append('is_featured', form.is_featured ? '1' : '0')
@@ -466,6 +496,7 @@ async function handleSubmit() {
     console.error('Submit error:', error)
     const backendErrors = error.response?.data?.errors
     if (backendErrors) {
+      errors.value = backendErrors
       Object.values(backendErrors).forEach((errArray) => {
         toast.error(errArray[0])
       })
