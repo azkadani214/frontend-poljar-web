@@ -172,9 +172,9 @@ import {
   Settings,
   ChevronDown,
   LogOut,
-  BarChart3,
   History,
   AlertTriangle,
+  ShieldCheck,
 } from 'lucide-vue-next'
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
 import {
@@ -237,24 +237,32 @@ const menuGroups = [
     ],
   },
   {
-    title: 'Sistem',
-    permission: 'sistem.view',
+    title: 'Keanggotaan',
     items: [
       {
-        name: 'Pengguna',
+        name: 'Daftar Pengguna',
+        path: '/admin/users',
         icon: Users,
         permission: 'pengguna.view',
-        children: [
-          { name: 'Daftar Pengguna', path: '/admin/users', permission: 'pengguna.view' },
-          { name: 'Peran & Izin', path: '/admin/roles', permission: 'sistem.view' },
-        ],
       },
       {
-        name: 'Organisasi',
+        name: 'Struktur Organisasi',
         path: '/admin/organization',
         icon: Building2,
         permission: 'organisasi.view',
       },
+      {
+        name: 'Peran & Izin',
+        path: '/admin/roles',
+        icon: ShieldCheck,
+        permission: 'sistem.view',
+      },
+    ],
+  },
+  {
+    title: 'Sistem',
+    permission: 'sistem.view',
+    items: [
       {
         name: 'Log Aktivitas',
         path: '/admin/activities',
