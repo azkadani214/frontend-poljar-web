@@ -172,6 +172,7 @@ import {
   Settings,
   ChevronDown,
   LogOut,
+  BarChart3,
   History,
   AlertTriangle,
   ShieldCheck,
