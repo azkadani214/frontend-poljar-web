@@ -166,7 +166,7 @@ const form = reactive({
 async function fetchCategories() {
   isLoading.value = true
   try {
-    const response = await newsService.getCategories()
+    const response = await newsService.adminGetCategories()
     categories.value = response.data || []
   } catch (error) {
     toast.error('Gagal memuat kategori')

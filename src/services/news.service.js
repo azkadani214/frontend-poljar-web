@@ -195,6 +195,13 @@ const newsService = {
   // ========== CATEGORY ADMIN ==========
 
   /**
+   * Get all categories (admin)
+   */
+  async adminGetCategories() {
+    return api.get('/news/categories')
+  },
+
+  /**
    * Create category
    */
   async createCategory(data) {

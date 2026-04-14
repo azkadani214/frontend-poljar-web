@@ -210,6 +210,13 @@ const blogService = {
   // ========== ADMIN CATEGORIES ==========
 
   /**
+   * Get all categories (admin)
+   */
+  async adminGetCategories() {
+    return api.get('/blog/categories')
+  },
+
+  /**
    * Create category
    */
   async createCategory(data) {

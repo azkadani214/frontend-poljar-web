@@ -155,7 +155,7 @@ const form = reactive({
 async function fetchCategories() {
   isLoading.value = true
   try {
-    const response = await blogService.getCategories()
+    const response = await blogService.adminGetCategories()
     categories.value = response.data || []
   } catch (error) {
     toast.error('Gagal memuat kategori blog')
