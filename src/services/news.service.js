@@ -197,8 +197,9 @@ const newsService = {
   /**
    * Get all categories (admin)
    */
-  async adminGetCategories() {
-    return api.get('/news/categories')
+  async adminGetCategories(params = {}) {
+    const queryString = buildQueryString(params)
+    return api.get(`/news/categories${queryString ? `?${queryString}` : ''}`)
   },
 
   /**

@@ -212,8 +212,9 @@ const blogService = {
   /**
    * Get all categories (admin)
    */
-  async adminGetCategories() {
-    return api.get('/blog/categories')
+  async adminGetCategories(params = {}) {
+    const queryString = buildQueryString(params)
+    return api.get(`/blog/categories${queryString ? `?${queryString}` : ''}`)
   },
 
   /**
