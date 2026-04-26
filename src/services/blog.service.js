@@ -160,19 +160,19 @@ const blogService = {
   /**
    * Create post (admin)
    */
-  async adminCreate(formData) {
-    return api.post('/blog/posts', formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    })
+  async create(formData) {
+    return api.post('/blog/posts', formData)
   },
 
   /**
    * Update post (admin)
    */
-  async adminUpdate(id, formData) {
-    return api.post(`/blog/posts/${id}`, formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    })
+  async update(id, data) {
+    if (data instanceof FormData) {
+      data.append('_method', 'PUT')
+      return api.post(`/blog/posts/${id}`, data)
+    }
+    return api.put(`/blog/posts/${id}`, data)
   },
 
   /**

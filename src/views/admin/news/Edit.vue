@@ -497,9 +497,6 @@ async function handleSubmit() {
       formData.append('cover_photo', form.image)
     }
 
-    // Method spoofing for PUT if sending as multipart/form-data
-    formData.append('_method', 'PUT')
-
     // SEO Structure
     if (form.seo_title) formData.append('seo[meta_title]', form.seo_title)
     if (form.seo_description) formData.append('seo[meta_description]', form.seo_description)

@@ -133,9 +133,7 @@ const newsService = {
    * Create news post
    */
   async create(formData) {
-    return api.post('/news/posts', formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    })
+    return api.post('/news/posts', formData)
   },
 
   /**
@@ -143,9 +141,9 @@ const newsService = {
    */
   async update(id, data) {
     if (data instanceof FormData) {
-      return api.post(`/news/posts/${id}`, data, {
-        headers: { 'Content-Type': 'multipart/form-data' },
-      })
+      // Laravel requires _method=PUT for multipart/form-data updates
+      data.append('_method', 'PUT')
+      return api.post(`/news/posts/${id}`, data)
     }
     return api.put(`/news/posts/${id}`, data)
   },

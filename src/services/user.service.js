@@ -96,9 +96,7 @@ const userService = {
   async import(file) {
     const formData = new FormData()
     formData.append('file', file)
-    return api.post('/users/import', formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    })
+    return api.post('/users/import', formData)
   },
 
   /**
@@ -137,9 +135,7 @@ const userService = {
   async updatePhoto(file) {
     const formData = new FormData()
     formData.append('photo', file)
-    return api.post('/profile/photo', formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    })
+    return api.post('/profile/photo', formData)
   },
 
   /**
