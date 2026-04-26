@@ -18,9 +18,8 @@ const API_VERSION = import.meta.env.VITE_API_VERSION || 'v1'
 
 const api = axios.create({
   baseURL: API_BASE_URL ? `${API_BASE_URL}/api/${API_VERSION}` : `/api/${API_VERSION}`,
-  timeout: parseInt(import.meta.env.VITE_API_TIMEOUT) || 30000,
+  timeout: parseInt(import.meta.env.VITE_API_TIMEOUT) || 60000,
   headers: {
-    'Content-Type': 'application/json',
     Accept: 'application/json',
   },
 })
@@ -35,10 +34,21 @@ api.interceptors.request.use(
       config.headers.Authorization = `Bearer ${token}`
     }
 
-    // Automatically remove Content-Type if data is FormData
-    // This allows the browser to set the correct boundary for multipart/form-data
+    // Handle Content-Type dynamically
     if (config.data instanceof FormData) {
-      delete config.headers['Content-Type']
+      // For FormData, we must let the browser set the Content-Type with boundary
+      if (config.headers.set) {
+        config.headers.set('Content-Type', undefined)
+      } else {
+        delete config.headers['Content-Type']
+      }
+    } else if (!config.headers['Content-Type']) {
+      // Default to JSON for non-FormData if not already set
+      if (config.headers.set) {
+        config.headers.set('Content-Type', 'application/json')
+      } else {
+        config.headers['Content-Type'] = 'application/json'
+      }
     }
 
     // Log request in development
