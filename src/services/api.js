@@ -35,6 +35,12 @@ api.interceptors.request.use(
       config.headers.Authorization = `Bearer ${token}`
     }
 
+    // Automatically remove Content-Type if data is FormData
+    // This allows the browser to set the correct boundary for multipart/form-data
+    if (config.data instanceof FormData) {
+      delete config.headers['Content-Type']
+    }
+
     // Log request in development
     if (import.meta.env.VITE_ENABLE_DEBUG === 'true') {
       console.log('API Request:', {
