@@ -506,6 +506,16 @@ async function handleSubmit() {
       })
     }
 
+    // Debug: Log FormData contents
+    console.log('Submitting FormData:')
+    for (let [key, value] of formData.entries()) {
+      if (value instanceof File) {
+        console.log(`${key}: File [${value.name}, ${value.type}, ${value.size} bytes]`)
+      } else {
+        console.log(`${key}:`, value)
+      }
+    }
+
     await newsService.update(id, formData)
     toast.success('Berita berhasil diperbarui')
     clearDraft()
