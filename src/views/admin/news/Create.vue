@@ -411,7 +411,7 @@ const form = reactive({
 
 async function fetchCategories() {
   try {
-    const response = await newsService.getCategories()
+    const response = await newsService.adminGetCategories()
     categories.value = response.data || []
   } catch (error) {
     console.error('Failed to fetch categories:', error)
@@ -474,8 +474,8 @@ async function handleSubmit() {
       form.tags.forEach((tag, i) => formData.append(`tags[${i}]`, tag))
     }
 
-    // Image (File object)
-    if (form.image instanceof File) {
+    // Image Handling
+    if (form.image && form.image instanceof File) {
       formData.append('cover_photo', form.image)
     }
 

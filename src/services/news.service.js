@@ -46,7 +46,7 @@ const newsService = {
   },
 
   /**
-   * Get news categories
+   * Get news categories (Public)
    */
   async getCategories() {
     return api.get('/public/news/categories')
